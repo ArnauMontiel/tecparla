@@ -27,12 +27,32 @@ DIR_SEN=$DIR_WRK/Sen
 DIR_PRM=$DIR_WRK/Prm/$NOM
 DIR_REC=$DIR_WRK/Rec/$NOM
 
-LIST_MOD=$DIR_WRK/Lis/vocales.lis
+FIC_MOD=$DIR_WRK/Mod/$NOM.mod
+[ -d $(dirname $FIC_MOD) ] || mkdir -p $(dirname $FIC_MOD)
+
+LIS_MOD=$DIR_WRK/Lis/vocales.lis
 
 FIC_RES=$DIR_WRK/Res/$NOM.res 
 [ -d $(dirname $FIC_RES) ] || mkdir -p $(dirname $FIC_RES)
 
-EXEC="parametriza.py -p $DIR_PRM -s $DIR_SEN $GUI_ENT $GUI_DEV"
-$PRM && echo $EXEC && $EXEC || exit 1 
+dirPrm="-p $DIR_PRM"
+dirSen="-s $DIR_SEN"
+EXEC="parametriza.py $dirSen $dirPrm $GUI_ENT $GUI_DEV"
+$PRM && { echo $EXEC && $EXEC || exit 1; } 
 
+dirMar="-m $DIR_SEN"
+lisMod="-l $LIS_MOD"
+ficMod="-f $FIC_MOD"
+EXEC="entrena.py $dirMar $dirPrm $lisMod $ficMod $GUI_ENT"
+$ENT && { echo $EXEC && $EXEC || exit 1; }
 
+ficMod="-m $FIC_MOD"
+dirRec="-r $DIR_REC"
+dirPrm="-p $DIR_PRM"
+EXEC="reconoce.py $dirPrm $dirRec $ficMod $GUI_DEV"
+$REC && { echo $EXEC && $EXEC || exit 1; }
+
+dirMar="-m $DIR_SEN"
+dirRec="-r $DIR_REC"
+EXEC="evalua.py $dirMar $dirRec $GUI_DEV"
+$EVA && { echo $EXEC && $EXEC | tee $FIC_RES|| exit 1; } 
