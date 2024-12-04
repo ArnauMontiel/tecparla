@@ -1,9 +1,11 @@
 eel-lab030-04
 /home/tecparla/Desktop/ARNAU/Part2
-mié 04 dic 2024 18:08:32 CET
+mié 04 dic 2024 18:17:19 CET
 from numpy.fft import fft
-parametriza.py -s /home/tecparla/Desktop/ARNAU/Part2/Sen -p /home/tecparla/Desktop/ARNAU/Part2/Prm/UNO -x -ffft /home/tecparla/Desktop/ARNAU/Part2/Gui/train.gui /home/tecparla/Desktop/ARNAU/Part2/Gui/devel.gui
+def absfft(x):
+    return abs(fft(x))
+parametriza.py -s /home/tecparla/Desktop/ARNAU/Part2/Sen -p /home/tecparla/Desktop/ARNAU/Part2/Prm/UNO -x -fabsfft /home/tecparla/Desktop/ARNAU/Part2/Gui/train.gui /home/tecparla/Desktop/ARNAU/Part2/Gui/devel.gui
 Traceback (most recent call last):
   File "/home/tecparla/Desktop/ARNAU/Part2/ramses/parametriza.py", line 51, in <module>
     exec(open(script).read())
-FileNotFoundError: [Errno 2] No such file or directory: '-ffft'
+FileNotFoundError: [Errno 2] No such file or directory: '-fabsfft'

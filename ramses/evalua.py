@@ -27,14 +27,14 @@ def evalua(dirRec, dirMar, *guiSen):
     for unidad in sorted(listPal):
         print(unidad, end='')
         for reconocidi in sorted(listPal):
-            conf = matconf[unidad][reconocidi]
+            conf = matconf[unidad][reconocidi] if reconocidi in matconf[unidad] else 0
             print(f'\t{conf}', end='')
         print()
 
     correctas = 0
     total = 0
-    for unidad in sorted(listPal):
-        for reconocidi in sorted(listPal):
+    for unidad in matconf:
+        for reconocidi in matconf[unidad]:
             total += matconf[unidad][reconocidi]
             if unidad == reconocidi:
                 correctas += matconf[unidad][reconocidi]
