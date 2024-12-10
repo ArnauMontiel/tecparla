@@ -48,7 +48,7 @@ Diccionario:
    scripts = args['--execPre']
    if scripts:
        for script in scripts.split(','):
-           exec(open(script).read())
+           exec(open(script).read()) 
 
 
    funcPrm = eval(args['--funcPrm'])

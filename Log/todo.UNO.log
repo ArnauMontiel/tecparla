@@ -1,11 +1,25 @@
 eel-lab030-04
 /home/tecparla/Desktop/ARNAU/Part2
-mié 04 dic 2024 18:17:19 CET
-from numpy.fft import fft
-def absfft(x):
-    return abs(fft(x))
-parametriza.py -s /home/tecparla/Desktop/ARNAU/Part2/Sen -p /home/tecparla/Desktop/ARNAU/Part2/Prm/UNO -x -fabsfft /home/tecparla/Desktop/ARNAU/Part2/Gui/train.gui /home/tecparla/Desktop/ARNAU/Part2/Gui/devel.gui
-Traceback (most recent call last):
-  File "/home/tecparla/Desktop/ARNAU/Part2/ramses/parametriza.py", line 51, in <module>
-    exec(open(script).read())
-FileNotFoundError: [Errno 2] No such file or directory: '-fabsfft'
+mar 10 dic 2024 16:49:47 CET
+import numpy as np
+def BlackmanTukey(x):
+   N = len(x)
+   orden = 32
+   cor = np.correlate(x, x, mode='full')
+   wcor = cor[N-orden-1:N+orden] * np.bartlett(2 * orden + 1)
+   return np.log(np.abs(np.fft.fft(wcor, n = N))**2 + 10)
+parametriza.py -s /home/tecparla/Desktop/ARNAU/Part2/Sen -p /home/tecparla/Desktop/ARNAU/Part2/Prm/UNO -x /home/tecparla/Desktop/ARNAU/Part2/Prm/UNO/BlackmanTukey.py -f BlackmanTukey /home/tecparla/Desktop/ARNAU/Part2/Gui/train.gui /home/tecparla/Desktop/ARNAU/Part2/Gui/devel.gui
+  0%|----------| 0/4000 [00:00<?, ?it/s]  4%|/---------| 167/4000 [00:00<00:02, 1666.98it/s]  9%|\---------| 365/4000 [00:00<00:01, 1849.65it/s] 14%||/--------| 559/4000 [00:00<00:01, 1888.78it/s] 19%||\--------| 759/4000 [00:00<00:01, 1930.68it/s] 24%|||/-------| 955/4000 [00:00<00:01, 1939.14it/s] 29%|||\-------| 1156/4000 [00:00<00:01, 1963.07it/s] 34%||||/------| 1353/4000 [00:00<00:01, 1885.98it/s] 39%||||\------| 1552/4000 [00:00<00:01, 1915.12it/s] 44%|||||/-----| 1751/4000 [00:00<00:01, 1936.73it/s] 49%|||||\-----| 1952/4000 [00:01<00:01, 1957.46it/s] 54%||||||/----| 2149/4000 [00:01<00:00, 1873.64it/s] 59%||||||\----| 2349/4000 [00:01<00:00, 1908.60it/s] 64%|||||||/---| 2541/4000 [00:01<00:00, 1853.37it/s] 69%|||||||\---| 2741/4000 [00:01<00:00, 1894.70it/s] 74%||||||||/--| 2941/4000 [00:01<00:00, 1923.47it/s] 78%||||||||\--| 3134/4000 [00:01<00:00, 1779.82it/s] 83%|||||||||/-| 3325/4000 [00:01<00:00, 1814.95it/s] 88%|||||||||\-| 3518/4000 [00:01<00:00, 1846.85it/s] 93%||||||||||/| 3719/4000 [00:01<00:00, 1893.27it/s] 98%||||||||||\| 3910/4000 [00:02<00:00, 1842.41it/s]100%|||||||||||| 4000/4000 [00:02<00:00, 1873.23it/s]
+entrena.py -m /home/tecparla/Desktop/ARNAU/Part2/Sen -p /home/tecparla/Desktop/ARNAU/Part2/Prm/UNO -l /home/tecparla/Desktop/ARNAU/Part2/Lis/vocales.lis -f /home/tecparla/Desktop/ARNAU/Part2/Mod/UNO.mod /home/tecparla/Desktop/ARNAU/Part2/Gui/train.gui
+  0%|----------| 0/2000 [00:00<?, ?it/s] 16%|||--------| 314/2000 [00:00<00:00, 3130.70it/s] 32%||||-------| 644/2000 [00:00<00:00, 3227.02it/s] 49%|||||\-----| 974/2000 [00:00<00:00, 3256.58it/s] 65%||||||||---| 1307/2000 [00:00<00:00, 3284.57it/s] 83%|||||||||/-| 1652/2000 [00:00<00:00, 3341.89it/s]100%||||||||||\| 1991/2000 [00:00<00:00, 3357.28it/s]100%|||||||||||| 2000/2000 [00:00<00:00, 3312.77it/s]
+reconoce.py -p /home/tecparla/Desktop/ARNAU/Part2/Prm/UNO -r /home/tecparla/Desktop/ARNAU/Part2/Rec/UNO -m /home/tecparla/Desktop/ARNAU/Part2/Mod/UNO.mod /home/tecparla/Desktop/ARNAU/Part2/Gui/devel.gui
+  0%|          | 0/2000 [00:00<?, ?it/s]  8%|▊         | 162/2000 [00:00<00:01, 1611.44it/s] 16%|█▌        | 324/2000 [00:00<00:01, 1521.31it/s] 24%|██▍       | 485/2000 [00:00<00:00, 1556.28it/s] 32%|███▏      | 641/2000 [00:00<00:00, 1540.55it/s] 40%|████      | 804/2000 [00:00<00:00, 1569.30it/s] 48%|████▊     | 962/2000 [00:00<00:00, 1498.35it/s] 56%|█████▌    | 1124/2000 [00:00<00:00, 1533.71it/s] 64%|██████▍   | 1287/2000 [00:00<00:00, 1560.92it/s] 73%|███████▎  | 1451/2000 [00:00<00:00, 1584.17it/s] 81%|████████  | 1611/2000 [00:01<00:00, 1588.31it/s] 89%|████████▊ | 1772/2000 [00:01<00:00, 1593.85it/s] 97%|█████████▋| 1934/2000 [00:01<00:00, 1598.83it/s]100%|██████████| 2000/2000 [00:01<00:00, 1571.32it/s]
+evalua.py -m /home/tecparla/Desktop/ARNAU/Part2/Sen -r /home/tecparla/Desktop/ARNAU/Part2/Rec/UNO /home/tecparla/Desktop/ARNAU/Part2/Gui/devel.gui
+  0%|----------| 0/2000 [00:00<?, ?it/s] 72%||||||||---| 1434/2000 [00:00<00:00, 14332.74it/s]100%|||||||||||| 2000/2000 [00:00<00:00, 14426.33it/s]
+	a	e	i	o	u
+a	328	10	0	52	10
+e	2	309	37	5	47
+i	0	37	290	0	73
+o	12	4	0	336	48
+u	0	1	3	41	355
+Porcentaje de acierto = 80.90%
