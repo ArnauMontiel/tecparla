@@ -5,29 +5,38 @@ from util import *
 from ramses.prm import *
 from mar import *
 from tqdm import tqdm 
+from euclidio import Euclidio
 
-def entrena(dirPrm, dirMar, LisFon, ficMod, *figGui):
+
+def entrena(dirPrm, dirMar, lisFon, ficMod, *figGui):
+    # Construimos el modelo inicial.
+    modelo = Euclidio(lisFon)
     
-    unidades = leeLis(LisFon)
-    total = {unidad : 0 for unidad in unidades}
-    numUdf = {unidad : 0 for unidad in unidades}
-    modelo = {}
+
+    # Inicializamos las estructuras iniciales para el entrenamiento.
+    modelo.initMod()
+    
+    # Bucle para todas las senyales
     for senyal in tqdm(leeLis(*figGui), ascii="-/|\|"):
         pathMar = pathName(dirMar, senyal, 'mar')
         unidad = cogeTRN(pathMar)
         pathPrm = pathName(dirPrm, senyal, 'prm')
         prm = leePrm(pathPrm)
-        total[unidad] += prm
-        numUdf[unidad] += 1
 
-    for unidad in unidades:
-        modelo[unidad] = total[unidad] / numUdf[unidad]    
-    chkPathName(ficMod)
-    with open(ficMod, 'wb') as fpMod:
-       np.save(fpMod, modelo)
+        # INCORPORAMOS la información de la señal al modelo.
+        modelo.addPrm(prm, unidad)
+
+    # RECALCULAMOS el modelo.
+    modelo.recaMod()
+    
+    #MOSTRAMOS la evolución del entrenamiento.
+    modelo.printEvo()
+    
+    # ESCRIBIMOS el modelo generado.   
+    modelo.escMod(ficMod)
 
 if __name__ == '__main__' :
-   # entrena('prm', 'Sen', 'Lis/vocales.lis', 'mod/modelo.mod', 'Gui/train.gui')
+   
 
    from docopt import docopt
    import sys

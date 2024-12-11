@@ -14,7 +14,7 @@ def reconoce(dirRec, dirPrm, ficMod, *guiSen):
         prm = leePrm(pathPrm)
         minDist = np.inf
         for unidad in modelos:
-            distancia = sum((prm - modelos[unidad])**2)
+            distancia = np.sum((prm - modelos[unidad])**2)
             if distancia < minDist:
                 minDist = distancia
                 reconocida = unidad
