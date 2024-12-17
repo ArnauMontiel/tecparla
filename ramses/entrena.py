@@ -5,14 +5,13 @@ from util import *
 from ramses.prm import *
 from mar import *
 from tqdm import tqdm 
-from euclidio import Euclidio
+from gaussiano import Gaussia
 
 
 def entrena(dirPrm, dirMar, lisFon, ficMod, *figGui):
     # Construimos el modelo inicial.
-    modelo = Euclidio(lisFon)
+    modelo = Gaussia(lisFon=lisFon)
     
-
     # Inicializamos las estructuras iniciales para el entrenamiento.
     modelo.initMod()
     

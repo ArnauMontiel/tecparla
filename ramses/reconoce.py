@@ -4,20 +4,16 @@ import numpy as np
 from ramses.util import *
 from ramses.prm import *
 from tqdm import tqdm 
+from gaussiano import Gaussia
 
 def reconoce(dirRec, dirPrm, ficMod, *guiSen):
-
-    modelos = np.load(ficMod, allow_pickle=True).item()
+    
+    modelos = Gaussia(ficMod=ficMod)
 
     for sen in tqdm(leeLis(*guiSen)):
         pathPrm = pathName(dirPrm, sen, 'prm')
         prm = leePrm(pathPrm)
-        minDist = np.inf
-        for unidad in modelos:
-            distancia = np.sum((prm - modelos[unidad])**2)
-            if distancia < minDist:
-                minDist = distancia
-                reconocida = unidad
+        reconocida, minDist = modelos(prm)
         pathRec = pathName(dirRec, sen, 'rec')
         chkPathName(pathRec)
         with open (pathRec, 'wt') as fpRec:
