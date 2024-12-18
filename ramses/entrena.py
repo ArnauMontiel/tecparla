@@ -8,9 +8,9 @@ from tqdm import tqdm
 from gaussiano import Gaussia
 
 
-def entrena(dirPrm, dirMar, lisFon, ficMod, *figGui):
+def entrena(dirPrm, dirMar, lisFon, ficMod, Modelo, *figGui):
     # Construimos el modelo inicial.
-    modelo = Gaussia(lisFon=lisFon)
+    modelo = Modelo(lisFon=lisFon)
     
     # Inicializamos las estructuras iniciales para el entrenamiento.
     modelo.initMod()
@@ -53,6 +53,8 @@ Opciones:
     --dirMar, -m PATH  directorio con las transcripciones de las señales. [default: .]
     --LisFon, -l PATH  Lista de fonemas.
     --ficMod, -f PATH 
+    --execPre, -x SCRIPTS Script d'execucio previa es pot indicar més d'un
+    --clsMod, -c CLASE Clase del modelo
     
 
 Diccionario:
@@ -64,8 +66,13 @@ Diccionario:
    Lisfon = args['--LisFon']
    ficMod = args['--ficMod']
    figGui = args['<guiSen>']
+   execPre = args['--execPre']
+   if execPre:
+       for script in execPre.split(','):
+           exec(open(script).read())
+   clsMod = eval(args['--clsMod'])
 
-   entrena(dirPrm, dirMar, Lisfon, ficMod, *figGui)
+   entrena(dirPrm, dirMar, Lisfon, ficMod, clsMod, *figGui)
 
 
 

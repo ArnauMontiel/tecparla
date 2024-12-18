@@ -6,9 +6,9 @@ from ramses.prm import *
 from tqdm import tqdm 
 from gaussiano import Gaussia
 
-def reconoce(dirRec, dirPrm, ficMod, *guiSen):
+def reconoce(dirRec, dirPrm, ficMod, Modelo, *guiSen):
     
-    modelos = Gaussia(ficMod=ficMod)
+    modelos = Modelo(ficMod=ficMod)
 
     for sen in tqdm(leeLis(*guiSen)):
         pathPrm = pathName(dirPrm, sen, 'prm')
@@ -20,10 +20,8 @@ def reconoce(dirRec, dirPrm, ficMod, *guiSen):
             fpRec.write(f'LBO: ,,,{reconocida}\n')
 
 
-  
-
 if __name__ == '__main__': 
-   #reconoce('rec', 'prm', 'mod/modelo.mod', 'Gui/devel.gui')
+   
    from docopt import docopt
    import sys
 
@@ -39,6 +37,8 @@ Opciones:
     --dirRec, -r PATH  directorio con los ficheros resultantes del reconocimiento
     --dirPrm, -p PATH  directorio con las transcripciones de las señales. [default: .]
     --ficMod, -m FILE  fichero con el modelo.
+    --execPre, -x SCRIPTS Script d'execucio previa, es pot indicar més d'un.
+    --clsMod, -c CLASE Clase del modelo
 
 Diccionario:
     <guiSen> fichero/s guia. 
@@ -48,8 +48,13 @@ Diccionario:
    dirPrm = args['--dirPrm']
    ficMod = args['--ficMod']
    guiSen = args['<guiSen>']
+   execPre = args['--execPre']
+   if execPre:
+       for script in execPre.split(','):
+           exec(open(script).read())
+   clsMod = eval(args['--clsMod'])
 
-   reconoce(dirRec, dirPrm, ficMod, *guiSen)
+   reconoce(dirRec, dirPrm, ficMod, clsMod, *guiSen)
 
 
    
